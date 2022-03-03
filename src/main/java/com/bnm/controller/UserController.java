@@ -43,7 +43,7 @@ public class UserController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(type = "array", implementation = User.class
                     ))}) })
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Iterable<User>> home() {
         return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
@@ -60,7 +60,7 @@ public class UserController {
             @ApiResponse(responseCode = "201", description = "Le user a été créé",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = User.class)) })})
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<User> createSondage(@Parameter(description = "Le nom d'utilisateur du nouvel user")
                                                   @RequestBody String username) {
         User createUser = new User(username);

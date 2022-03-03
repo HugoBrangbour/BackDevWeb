@@ -45,7 +45,7 @@ public class SondageController {
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(type = "array", implementation = Sondage.class
                             ))}) })
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Iterable<Sondage>> getAll() {
         return new ResponseEntity<>(sondageRepository.findAll(), HttpStatus.OK);
     }
@@ -126,7 +126,7 @@ public class SondageController {
             @ApiResponse(responseCode = "201", description = "Le sondage a été créé",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Sondage.class)) })})
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<Sondage> createSondage(
             @Parameter(description = "Le sondage a créer")
                 @RequestBody SondageForm newSondage) {
