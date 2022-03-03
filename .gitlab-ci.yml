@@ -1,0 +1,30 @@
+image: maven:3.8.4-openjdk-11
+
+stages:
+ - build
+ - test
+ - quality
+ - deploy
+ 
+build:
+    stage: build
+    script:
+        - mvn clean compile
+
+test:
+    stage: test
+    script:
+        - mvn test
+
+quality:
+    stage: quality
+    script:
+        - mvn sonar:sonar \-Dsonar.projectKey=Survey-Meredith-Hugo-Theo \-Dsonar.host.url=https://sonarqube.cedricmtta.com \-Dsonar.login=7e25689f1e59ec5efed00c0cb245e0e3ab01b435 \-Dsonar.sources=. \-Dsonar.java.binaries=**/*
+        
+deploy:
+    stage: deploy
+    script:
+        - apt-get update -qy
+        - apt-get install -y ruby-dev
+        - gem install dpl
+        - dpl --provider=heroku --app=$HEROKU_APP_PRODUCTION --api-key=$HEROKU_API_KEY
