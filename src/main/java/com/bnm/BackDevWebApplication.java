@@ -1,10 +1,14 @@
 package com.bnm;
 
-import com.bnm.entity.User;
-import com.bnm.repository.UserRepository;
+import com.bnm.entity.CarteForm;
+import com.bnm.entity.CarteMagic;
+import com.bnm.repository.CarteMagicRepository;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.Bean;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * The type Demo application.
@@ -28,14 +32,21 @@ public class BackDevWebApplication {
 	 * @return the command line runner
 	 */
 	@Bean
-	public CommandLineRunner seeder(UserRepository repository) {
+	public CommandLineRunner seeder(CarteMagicRepository repository) {
 		return args -> {
-			// save a few users
-			repository.save(new User("Bauer"));
-			repository.save(new User("O'Brian"));
-			repository.save(new User("Bauer"));
-			repository.save(new User("Palmer"));
-			repository.save(new User("Dessler"));
+			Set<String> creature = new HashSet<>();
+			creature.add("Creture");
+			repository.save(new CarteMagic(new CarteForm(
+					"Archangel Avacyn",
+					"{3}{W}{W}",
+					5,
+					"White",
+					creature,
+					"Flash\\nFlying, vigilance\\nWhen Archangel Avacyn enters the battlefield, creatures you control gain indestructible until end of turn.\\nWhen a non-Angel creature you control dies, transform Archangel Avacyn at the beginning of the next upkeep.",
+					"4",
+					"4",
+					"https://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=411061&type=card"
+			)));
 		};
 	}
 }
