@@ -89,7 +89,6 @@ public class CarteMagicController {
             @Parameter(description = "la carte modifié")
                 @RequestBody CarteForm modifiedCarte)    {
         if (repository.existsById(idCarte)){
-            repository.deleteById(idCarte);
             CarteMagic carteTemp = new CarteMagic(modifiedCarte);
             carteTemp.setId(idCarte);
             CarteMagic newCarte = repository.save(carteTemp);
