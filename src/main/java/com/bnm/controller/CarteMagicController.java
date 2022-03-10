@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/CarteMagic")
 public class CarteMagicController {
     private final CarteMagicRepository repository;
@@ -32,9 +35,26 @@ public class CarteMagicController {
                             schema = @Schema(type = "array", implementation = CarteMagic.class
                             ))})
     })
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Iterable<CarteMagic>> getALL() {
             return new ResponseEntity<>(repository.findAll(), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Get toutes les cartes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Les carte ont été trouvé",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(type = "array", implementation = CarteMagic.class
+                            ))})
+    })
+    @GetMapping("/Page")
+    public ResponseEntity<Iterable<CarteMagic>> getAllPageable(
+            @Parameter(description = "numéro de la page")
+            @RequestParam(value = "offset", defaultValue = "0") int offset,
+            @Parameter(description = "nombre d'élément par pages")
+            @RequestParam(value = "limit", defaultValue = "20") int limit) {
+        Pageable page = PageRequest.of(offset, limit);
+        return new ResponseEntity<>(repository.findAll(page), HttpStatus.OK);
     }
 
     @Operation(summary = "Get la carte par son id")
